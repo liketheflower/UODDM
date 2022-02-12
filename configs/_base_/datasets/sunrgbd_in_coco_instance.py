@@ -33,18 +33,18 @@ data = dict(
     workers_per_gpu=2,
     train=dict(
         type=dataset_type,
-        ann_file=data_root + 'train/gts/raw_gts/det_train.json',
-        img_prefix=data_root + 'train/dhs/',
+        ann_file=data_root + 'train/gts/raw_gts/det_trainrgb.json',
+        img_prefix=data_root + 'train/rgb/',
         pipeline=train_pipeline),
     val=dict(
         type=dataset_type,
-        ann_file=data_root + 'val/gts/raw_gts/det_val.json',
-        img_prefix=data_root + 'val/dhs/',
+        ann_file=data_root + 'val/gts/raw_gts/det_valrgb.json',
+        img_prefix=data_root + 'val/rgb/',
         pipeline=test_pipeline),
     test=dict(
         type=dataset_type,
-        ann_file=data_root + 'val/gts/raw_gts/det_val.json',
-        img_prefix=data_root + 'val/dhs/',
+        ann_file=data_root + 'val/gts/raw_gts/det_valrgb.json',
+        img_prefix=data_root + 'val/rgb/',
         pipeline=test_pipeline))
 evaluation = dict(classwise=True, metric=['bbox', 'segm'])
 #evaluation = dict(metric=['bbox', 'segm'])
