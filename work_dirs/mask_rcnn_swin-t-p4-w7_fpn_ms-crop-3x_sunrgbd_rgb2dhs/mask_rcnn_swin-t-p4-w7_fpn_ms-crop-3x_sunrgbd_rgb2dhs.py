@@ -201,9 +201,9 @@ data = dict(
     train=dict(
         type='CocoDataset',
         ann_file=
-        '/data/sophia/a/Xiaoke.Shen54/DATASET/sunrgbd_DO_NOT_DELETE/train/gts/raw_gts/det_trainrgb.json',
+        '/data/sophia/a/Xiaoke.Shen54/DATASET/sunrgbd_DO_NOT_DELETE/train/gts/raw_gts/det_train.json',
         img_prefix=
-        '/data/sophia/a/Xiaoke.Shen54/DATASET/sunrgbd_DO_NOT_DELETE/train/rgb/',
+        '/data/sophia/a/Xiaoke.Shen54/DATASET/sunrgbd_DO_NOT_DELETE/train/dhs/',
         pipeline=[
             dict(type='LoadImageFromFile'),
             dict(type='LoadAnnotations', with_bbox=True, with_mask=True),
@@ -263,9 +263,9 @@ data = dict(
     val=dict(
         type='CocoDataset',
         ann_file=
-        '/data/sophia/a/Xiaoke.Shen54/DATASET/sunrgbd_DO_NOT_DELETE/val/gts/raw_gts/det_valrgb.json',
+        '/data/sophia/a/Xiaoke.Shen54/DATASET/sunrgbd_DO_NOT_DELETE/val/gts/raw_gts/det_val.json',
         img_prefix=
-        '/data/sophia/a/Xiaoke.Shen54/DATASET/sunrgbd_DO_NOT_DELETE/val/rgb/',
+        '/data/sophia/a/Xiaoke.Shen54/DATASET/sunrgbd_DO_NOT_DELETE/val/dhs/',
         pipeline=[
             dict(type='LoadImageFromFile'),
             dict(
@@ -288,9 +288,9 @@ data = dict(
     test=dict(
         type='CocoDataset',
         ann_file=
-        '/data/sophia/a/Xiaoke.Shen54/DATASET/sunrgbd_DO_NOT_DELETE/val/gts/raw_gts/det_valrgb.json',
+        '/data/sophia/a/Xiaoke.Shen54/DATASET/sunrgbd_DO_NOT_DELETE/val/gts/raw_gts/det_val.json',
         img_prefix=
-        '/data/sophia/a/Xiaoke.Shen54/DATASET/sunrgbd_DO_NOT_DELETE/val/rgb/',
+        '/data/sophia/a/Xiaoke.Shen54/DATASET/sunrgbd_DO_NOT_DELETE/val/dhs/',
         pipeline=[
             dict(type='LoadImageFromFile'),
             dict(
