@@ -1,11 +1,11 @@
-def extract_mAP50(path, fileprefix, linenumber):
+def extract_mAP50(path, fileprefix, linenumber, epoch=100):
     """
     Extract the mAP50 info
     ./../../test_logs_unshow/rgb2dhs_on_rgb_second50epochs/test_swin_rgb2dhs_yonod_on_rgb_second_50epochs_epoch_6.log
 
     """
     mAP50 = []
-    for epoch in range(1, 51):
+    for epoch in range(1, epoch+1):
         fn = (
             path
             + fileprefix
@@ -29,6 +29,13 @@ def extract_mAP50(path, fileprefix, linenumber):
 
 
 if __name__ == "__main__":
+    # RGB 2 DHS
+    """
     path = "./../../test_logs_unshow/rgb2dhs_on_rgb_second50epochs/"
     fileprefix = "test_swin_rgb2dhs_yonod_on_rgb_second_50epochs_epoch_"
-    extract_mAP50(path, fileprefix, 2638)
+    extract_mAP50(path, fileprefix, 2638, 50)
+    """
+    # RGB DHS mixed
+    path = "./../../test_logs_unshow/rgb_dhs_mixed_on_rgb/"
+    fileprefix = "test_swin_rgb_dhs_mixed_yonod_on_rgb_epoch_"
+    extract_mAP50(path, fileprefix, 2638, 100)
