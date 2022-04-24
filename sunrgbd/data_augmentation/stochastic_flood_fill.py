@@ -88,7 +88,7 @@ def get_stochastic_flood_fill_mask(
     H, W = img_height, img_width
     mask = -1 * np.ones((H, W))
     # Using the 0 as rgb image and 1 as the DHS image.
-    if random.random() <= rgb_prob_of_first_pixel:
+    if random.random() < rgb_prob_of_first_pixel:
         mask[0][0] = 0
     else:
         mask[0][0] = 1
@@ -96,7 +96,7 @@ def get_stochastic_flood_fill_mask(
         random.seed(random_seed)
     DELTA = 2  # generate extra random numbers
     random_numbers = [random.random() for _ in range(H * W * (len(dirs) + DELTA))]
-    print(random_numbers[:10])
+    # print(random_numbers[:10])
     random_num_idx = 0
     for i in range(H):
         for j in range(W):
@@ -106,6 +106,7 @@ def get_stochastic_flood_fill_mask(
                 )
     mask = mask % 2
     return mask
+
 
 def stochastic_flood_fill_for_a_dummy_image(
     rgb_prob_of_first_pixel,
@@ -172,12 +173,13 @@ def stochastic_flood_fill_for_an_image(
         for j in range(W):
             selected_img = rgb if int(mask[i, j]) == 1 else dhs
             img[i, j] = selected_img[i, j]
-    save_fn = (
-        FOUR_WAYS * "four_ways_"
-        + "stochastic_flood_fill_demo"
-        + "_".join([str(p)[:4] for p in connect_probs])
-        + ".png"
-    )
+    if save_fn is None:
+        save_fn = (
+            FOUR_WAYS * "four_ways_"
+            + "stochastic_flood_fill_demo"
+            + "_".join([str(p)[:4] for p in connect_probs])
+            + ".png"
+        )
     cv2.imwrite(save_path + save_fn, img)
 
 
