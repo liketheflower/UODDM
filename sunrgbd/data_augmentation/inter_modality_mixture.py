@@ -1,5 +1,7 @@
 import glob, os
 import random
+from PIL import Image
+import numpy as np
 from stochastic_flood_fill import stochastic_flood_fill_for_an_image
 
 biased_week_bounds = [0.1, 0.2]
