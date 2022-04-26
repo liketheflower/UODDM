@@ -20,6 +20,20 @@ info = {
     "contributor": "Sun RGBD dataset creators, computer vision lab, Hunter College, CUNY",
     "date_created": "2022/01/01",
 }
+def is_augmented_img(img_fn):
+    """
+    not augmented img name format: 008546_rgb.png
+    aug_id begins from 1
+    augmented_img_name_format: 008546_rgbdhssff_<first pixel rgb or dhs>_<rgb extend p>_<dhs_extend p>_<aug_id>_.png
+    """
+    img_fn_split = img_fn.split("_")
+    if len(img_fn_split) == 2: 
+        return False, 0
+    #  005051_rgbdhssff_firstpixelrgb_082_018_001_.png, here 001 is aug id
+    aug_id = int(img_fn_split[-2])
+    assert aug_id >= 1, "aug id is invalid"
+    return True, aug_id
+
 
 
 def get_images_info(img_files):
@@ -43,39 +57,28 @@ def get_images_info(img_files):
     cnt = collections.defaultdict(int)
     image_ids = []
 
-    def is_augmented_img(img_fn):
-        """
-        not augmented img name format: 008546_rgb.png
-        aug_id begins from 1
-        augmented_img_name_format: 008546_rgbdhssff_<first pixel rgb or dhs>_<rgb extend p>_<dhs_extend p>_<aug_id>_.png
-        """
-        img_fn_split = img_fn.split("_")
-        if len(img_fn_split) == 2:
-            return False, 0
-        #  005051_rgbdhssff_firstpixelrgb_082_018_001_.png, here 001 is aug id
-        aug_id = int(img_fn_split[-2])
-        assert aug_id >= 1, "aug id is invalid"
-        return True, aug_id
-
     def extract_info_(img_fn):
         file_name = img_fn.split("/")[-1]
         img_id = int(file_name.split("_")[0])
-        # Add delta to distinguish RGB with DHS
-        img_id_delta = 1000000 if "dhs" in file_name else 0
-        img_id += img_id_delta
-        _, aug_id = is_augmented_img(file_name)
-        # For each image, we can not have more than 1000 agumented image. If we do,
-        # we need increase 1000.
-        img_id = img_id * 1000 + aug_id
+        is_aug_img, aug_id = is_augmented_img(file_name)
+        # image_type: rgb: 0, dhs: 1, aug:2
+        if is_aug_img:
+            image_type = 2
+        else:
+            image_type = 0 if "rgb" in file_name else 1
+        img_id = img_id * 10 + image_type
+        # For each image, we can not have more than 10 agumented image. If we do,
+        # we need increase 10.
+        img_id = img_id * 10 + aug_id
         image_ids.append(img_id)
-        cnt[img_id_delta] += 1
+        cnt[image_type] += 1
         image = mmcv.imread(img_fn)
         height, width = image.shape[:2]
         # print("image height, width", height, width)
         return {"file_name": file_name, "height": height, "width": width, "id": img_id}
 
     ret = [extract_info_(img_fn) for img_fn in img_files]
-    print("img delta in img info", cnt)
+    print("img type in img info", cnt)
     assert len(image_ids) == len(set(image_ids)), "Duplicated image id detected"
     return ret
 
@@ -121,9 +124,17 @@ def get_annotations_info(img_files, label_folder):
             + "_gt_class_ids_sunrgbd80.npy"
         )
         bboxes, labels = np.load(bbox_fn), np.load(label_fn)
-        img_id_delta = 100000 if "dhs" in file_name else 0
-        cnt[img_id_delta] += 1
-        img_id += img_id_delta
+        is_aug_img, aug_id = is_augmented_img(file_name)                                
+        # image_type: rgb: 0, dhs: 1, aug:2                                             
+        if is_aug_img:                                                                  
+            image_type = 2                                                              
+        else:                                                                           
+            image_type = 0 if "rgb" in file_name else 1                                 
+        img_id = img_id * 10 + image_type                                               
+        # For each image, we can not have more than 10 agumented image. If we do,       
+        # we need increase 10.                                                          
+        img_id = img_id * 10 + aug_id 
+        cnt[image_type] += 1
         if bboxes.size == 0:
             return []
         bboxes = bboxes.tolist()
@@ -152,7 +163,7 @@ def get_annotations_info(img_files, label_folder):
     ret = []
     for fn in img_files:
         ret += extract_label_info_(fn)
-    print("img delta in img annotation", cnt)
+    print("img type in img annotation", cnt)
     return ret
 
 
@@ -188,7 +199,7 @@ def convert_data_to_coco_style(img_folder, label_folder):
     Convert our SUN RGBD dataset to coco style
     """
     # For train
-    generate_annotation(img_folder, label_folder, "det_train_rgb_and_dhs_with_sfl.json")
+    generate_annotation(img_folder, label_folder, "det_train_rgb_and_dhs_with_sff.json")
     # For test should not be generated as it already has
     """
     img_folder = dataset_folder + "val/"+ img_type + "/"      
