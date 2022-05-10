@@ -20,9 +20,9 @@ def extract_mAP50(path, fileprefix, linenumber, epoch=100):
 2638  Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=1000 ] = 0.189
 
 2639  Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=1000 ] = 0.077
+        """
         for i, l in enumerate(lines):
             if "Average Precision" in l:print(i, l) 
-        """
         mAP = float(lines[linenumber].split()[-1])
         mAP50.append(mAP)
     print(mAP50)
@@ -36,6 +36,12 @@ if __name__ == "__main__":
     extract_mAP50(path, fileprefix, 2638, 50)
     """
     # RGB DHS mixed
+    """
     path = "./../../test_logs_unshow/rgb_dhs_mixed_on_rgb/"
     fileprefix = "test_swin_rgb_dhs_mixed_yonod_on_rgb_epoch_"
+    extract_mAP50(path, fileprefix, 2638, 100)
+    """
+    # RGB DHS mixed with sff
+    path = "./../../test_logs_unshow/rgb_dhs_mixed_with_sff_on_rgb/"
+    fileprefix = "test_swin_rgb_dhs_mixed_with_rff_yonod_on_rgb_epoch_"
     extract_mAP50(path, fileprefix, 2638, 100)
