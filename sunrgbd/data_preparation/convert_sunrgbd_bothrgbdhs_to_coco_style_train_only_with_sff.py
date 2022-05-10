@@ -199,7 +199,8 @@ def convert_data_to_coco_style(img_folder, label_folder):
     Convert our SUN RGBD dataset to coco style
     """
     # For train
-    generate_annotation(img_folder, label_folder, "det_train_rgb_and_dhs_with_sff.json")
+    #generate_annotation(img_folder, label_folder, "det_train_rgb_and_dhs_with_sff.json")
+    generate_annotation(img_folder, label_folder, "det_train_rgb_and_dhs_with_chess1.json")
     # For test should not be generated as it already has
     """
     img_folder = dataset_folder + "val/"+ img_type + "/"      
@@ -209,8 +210,13 @@ def convert_data_to_coco_style(img_folder, label_folder):
 
 
 if __name__ == "__main__":
+    """
     img_folder = (
         "/data/sophia/a/Xiaoke.Shen54/DATASET/sunrgbd_DO_NOT_DELETE/train/rgbdhs_sff/"
+    )
+    """
+    img_folder = (
+        "/data/sophia/a/Xiaoke.Shen54/DATASET/sunrgbd_DO_NOT_DELETE/train/rgbdhs_chess1/"
     )
     label_folder = (
         "/data/sophia/a/Xiaoke.Shen54/DATASET/sunrgbd_DO_NOT_DELETE/train/gts/raw_gts/"
