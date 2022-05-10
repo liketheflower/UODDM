@@ -51,13 +51,13 @@ def chessboard_mixture(
             # For example, when begin_idx is 0,
             # for the first row, the first column will be 0(rgb), the second column
             # will be 1, we use dhs.
-            k = (k + (j // patch_size)) % 2
+            this_k = (k + (j // patch_size)) % 2
             row_begin, row_end = i, min(i + patch_size, H)
             col_begin, col_end = j, min(j + patch_size, W)
-            output_img[row_begin:row_end, col_begin:col_end] = images[k][
+            output_img[row_begin:row_end, col_begin:col_end] = images[this_k][
                 row_begin:row_end, col_begin:col_end
             ]
-    cv2.imwrite(save_path + save_filename, output_img)
+    cv2.imwrite(save_filename, output_img)
 
 
 def inter_modality_mixture(
@@ -198,7 +198,7 @@ def inter_modality_mixture(
 if __name__ == "__main__":
     rgb_filename = "./../demo_images/006223_rgb.png"
     dhs_filename = "./../demo_images/006223_dhs.png"
-    save_path = "/Users/jimmy/Downloads/chessboard/"
+    save_path = "./chessboard/"
     os.makedirs(save_path, exist_ok=True)
     for patch_size in range(1, 40, 2):
         save_fn = "chessboard" + str(patch_size).zfill(3) + ".png"
@@ -207,5 +207,5 @@ if __name__ == "__main__":
             dhs_filename=dhs_filename,
             patch_size=patch_size,
             first_patch="rgb",
-            save_fn=save_path + save_fn,
+            save_filename=save_path + save_fn,
         )
