@@ -176,8 +176,8 @@ def generate_annotation(img_folder, label_folder, annotation_filename):
     https://www.immersivelimit.com/tutorials/create-coco-annotations-from-scratch
     """
     img_files = sorted(glob.glob(img_folder + "*.png"))
-    random.seed(42)
-    random.shuffle(img_files)
+    #random.seed(42)
+    #random.shuffle(img_files)
     print(f"len of img_files {len(img_files)}")
     images_info = get_images_info(img_files)
     annotations_info = get_annotations_info(img_files, label_folder)
@@ -194,7 +194,7 @@ def generate_annotation(img_folder, label_folder, annotation_filename):
         json.dump(final_annotations, f)
 
 
-def convert_data_to_coco_style(img_folder, label_folder):
+def convert_data_to_coco_style(img_folder, label_folder, save_fn="det_train_rgb_and_dhs_with_chess1.json"):
     """
     Convert our SUN RGBD dataset to coco style
     """
@@ -215,6 +215,7 @@ if __name__ == "__main__":
         "/data/sophia/a/Xiaoke.Shen54/DATASET/sunrgbd_DO_NOT_DELETE/train/rgbdhs_sff/"
     )
     """
+    """
     img_folder = (
         "/data/sophia/a/Xiaoke.Shen54/DATASET/sunrgbd_DO_NOT_DELETE/train/rgbdhs_chess1/"
     )
@@ -222,3 +223,12 @@ if __name__ == "__main__":
         "/data/sophia/a/Xiaoke.Shen54/DATASET/sunrgbd_DO_NOT_DELETE/train/gts/raw_gts/"
     )
     convert_data_to_coco_style(img_folder, label_folder)
+    """
+    # val 007993_rgbdhchessboard1_001_.png
+    img_folder = (
+        "/data/sophia/a/Xiaoke.Shen54/DATASET/sunrgbd_DO_NOT_DELETE/val/rgbdhs_chess1/"
+    )
+    label_folder = (
+        "/data/sophia/a/Xiaoke.Shen54/DATASET/sunrgbd_DO_NOT_DELETE/val/gts/raw_gts/"
+    )
+    convert_data_to_coco_style(img_folder, label_folder, "det_val_rgb_and_dhs_with_chess1")

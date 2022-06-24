@@ -21,16 +21,21 @@ def aug_this_image(rgb_fn, dhs_fn, patch_size, save_path, cnt):
     return cnt + 1
 
 
-def aug_all_images(img_path, patch_size=1):
+def aug_all_images(img_path, patch_size=1, save_path=""):
     rgb_img_fns = sorted(glob.glob(img_path + "*_rgb.png"))
     dhs_img_fns = [img_path + get_fn_prefix(fn) + "_dhs.png" for fn in rgb_img_fns]
     assert all(os.path.isfile(fn) for fn in dhs_img_fns)
-    save_path = img_path
+    os.makedirs(save_path, exist_ok=True)
     for rgb_fn, dhs_fn in zip(rgb_img_fns, dhs_img_fns):
         assert get_fn_prefix(rgb_fn) == get_fn_prefix(dhs_fn), "Not matched filename"
         aug_this_image(rgb_fn, dhs_fn, patch_size, save_path, 1)
 
 
 if __name__ == "__main__":
+    """
     img_path = "/data/sophia/a/Xiaoke.Shen54/DATASET/sunrgbd_DO_NOT_DELETE/train/rgbdhs_chess1/"
-    aug_all_images(img_path)
+    aug_all_images(img_path, 1, img_path)
+    """
+    img_path = "/data/sophia/a/Xiaoke.Shen54/DATASET/sunrgbd_DO_NOT_DELETE/val/rgbdhs/"
+    save_path = "/data/sophia/a/Xiaoke.Shen54/DATASET/sunrgbd_DO_NOT_DELETE/val/rgbdhs_chess1/"
+    aug_all_images(img_path, 1, save_path)
